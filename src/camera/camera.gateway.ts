@@ -11,6 +11,9 @@ import { Logger } from '@nestjs/common';
 @WebSocketGateway({
   cors: {
     origin: '*', // Production'da specific domain kullan
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+
   },
   namespace: 'camera',
 })
