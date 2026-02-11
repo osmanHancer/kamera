@@ -51,15 +51,27 @@ export class CameraGateway
     this.clientCount--;
   }
 
-  // Python client'tan frame al
+  // Python client'tan frame al (Binary)
   @SubscribeMessage('upload_frame')
-  handleFrameUpload(client: Socket, frame: string) {
-    this.latestFrame = frame;
+  handleFrameUpload(client: Socket, frame: Buffer | any) {
+    // Binary data -> Base64'e çevir (browser için)
+    let base64Frame: string;
+    
+    if (Buffer.isBuffer(frame)) {
+      base64Frame = frame.toString('base64');
+    } else if (frame instanceof Uint8Array) {
+      base64Frame = Buffer.from(frame).toString('base64');
+    } else {
+      // Zaten string ise (eski format uyumluluğu)
+      base64Frame = frame;
+    }
+    
+    this.latestFrame = base64Frame;
     this.cameraConnected = true;
 
     // SADECE en son frame'i broadcast et (buffer temizliği)
     // Eski frame'leri atla - canlı akış için kritik!
-    this.server.volatile.emit('frame', frame);
+    this.server.volatile.emit('frame', base64Frame);
 
     return { success: true };
   }
