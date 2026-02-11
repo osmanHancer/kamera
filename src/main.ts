@@ -6,11 +6,12 @@ async function bootstrap() {
   
   // CORS ayarları (WebSocket için gerekli)
   app.enableCors({
-    origin: '*', // Production'da specific domain kullanın
+    origin: '*', // Tüm originlere izin ver (production'da daha spesifik olmalı)
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
 
-  const port = process.env.PORT ?? 3000;
+  const port = process.env.PORT ?? 3003;
   await app.listen(port);
   
   console.log('');
