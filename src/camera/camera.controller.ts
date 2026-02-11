@@ -5,7 +5,7 @@ import { CameraGateway } from './camera.gateway';
 import * as path from 'path';
 import * as fs from 'fs';
 
-@Controller('kamera')
+@Controller()
 export class CameraController {
   constructor(
     private readonly cameraService: CameraService,
