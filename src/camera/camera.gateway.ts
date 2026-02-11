@@ -13,9 +13,11 @@ import { Logger } from '@nestjs/common';
     origin: '*', // Production'da specific domain kullan
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-
   },
   namespace: 'camera',
+  pingTimeout: 60000,        // 60 saniye
+  pingInterval: 25000,       // 25 saniyede bir ping
+  transports: ['websocket', 'polling'],
 })
 export class CameraGateway
   implements OnGatewayConnection, OnGatewayDisconnect
